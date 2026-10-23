@@ -3,19 +3,25 @@
 
     <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28"/>
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
     <application
         android:theme="@android:style/Theme.Material.NoActionBar"
-        android:label="My Overlay Menu">
+        android:label="GoldEg"
+        android:allowBackup="false">
 
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
+
+        <service
+            android:name=".OverlayService"
+            android:exported="false"/>
     </application>
 </manifest>
