@@ -72,6 +72,11 @@ public class MainActivity extends Activity {
         subtitle.setGravity(Gravity.CENTER);
         panel.addView(subtitle);
 
+        TextView enemies = text("ENEMIES: 0", 16, gold);
+        enemies.setGravity(Gravity.CENTER);
+        enemies.setTypeface(null, Typeface.BOLD);
+        panel.addView(enemies);
+
         section("STATUS");
         TextView status = text("●  Приложение запущено", 15,
                 Color.rgb(100, 220, 130));
