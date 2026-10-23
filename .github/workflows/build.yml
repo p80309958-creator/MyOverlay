@@ -1,4 +1,4 @@
-name: Build APK
+name: Build GoldEg APK
 
 on:
   push:
@@ -18,9 +18,11 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.7'
-      - name: Build debug APK
+      - name: Install SDK
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "cmake;3.22.1" "ndk;27.0.12077973"
+      - name: Build APK
         run: gradle assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: MyOverlay-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: GoldEg
+          path: app/build/outputs/apk/debug/*.apk
