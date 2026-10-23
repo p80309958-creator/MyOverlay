@@ -3,50 +3,94 @@ package com.example.myoverlay;
 import android.app.Activity;
 import android.os.Bundle;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Button;
+import android.widget.Switch;
+import android.widget.ScrollView;
 
 public class MainActivity extends Activity {
+    int gold = Color.rgb(255, 190, 55);
+    int bg = Color.rgb(17, 17, 22);
+    LinearLayout panel;
 
-    static {
-        System.loadLibrary("native-lib");
+    GradientDrawable shape(int color, int radius) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(color);
+        d.setCornerRadius(radius);
+        return d;
     }
 
-    private native String getMessage();
+    TextView text(String value, int size, int color) {
+        TextView t = new TextView(this);
+        t.setText(value);
+        t.setTextSize(size);
+        t.setTextColor(color);
+        t.setPadding(18, 14, 18, 14);
+        return t;
+    }
+
+    void section(String name) {
+        TextView t = text(name, 17, gold);
+        t.setTypeface(null, Typeface.BOLD);
+        panel.addView(t);
+    }
+
+    void toggle(String name, boolean enabled) {
+        Switch s = new Switch(this);
+        s.setText(name);
+        s.setTextColor(Color.WHITE);
+        s.setTextSize(15);
+        s.setChecked(enabled);
+        s.setPadding(18, 8, 18, 8);
+        s.setButtonTintList(null);
+        panel.addView(s);
+    }
 
     @Override
-    protected void onCreate(Bundle state) {
+    public void onCreate(Bundle state) {
         super.onCreate(state);
+        getWindow().setStatusBarColor(bg);
+        getWindow().setNavigationBarColor(bg);
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setGravity(Gravity.CENTER);
-        layout.setPadding(40, 40, 40, 40);
-        layout.setBackgroundColor(Color.rgb(25, 25, 30));
+        ScrollView scroll = new ScrollView(this);
+        scroll.setBackgroundColor(bg);
+        panel = new LinearLayout(this);
+        panel.setOrientation(LinearLayout.VERTICAL);
+        panel.setPadding(18, 22, 18, 22);
+        scroll.addView(panel);
 
-        TextView title = new TextView(this);
-        title.setText("GoldEg");
-        title.setTextColor(Color.WHITE);
-        title.setTextSize(30);
+        TextView title = text("GoldEg", 30, gold);
+        title.setGravity(Gravity.CENTER);
+        title.setTypeface(null, Typeface.BOLD);
+        panel.addView(title);
 
-        TextView message = new TextView(this);
-        message.setText(getMessage());
-        message.setTextColor(Color.WHITE);
-        message.setTextSize(20);
+        TextView subtitle = text("CONTROL CENTER  •  v1.1", 12, Color.GRAY);
+        subtitle.setGravity(Gravity.CENTER);
+        panel.addView(subtitle);
 
-        Button button = new Button(this);
-        button.setText("Нажми меня");
+        section("STATUS");
+        TextView status = text("●  Приложение запущено", 15,
+                Color.rgb(100, 220, 130));
+        panel.addView(status);
 
-        button.setOnClickListener(v ->
-            message.setText("C++ работает!")
-        );
+        section("ИНТЕРФЕЙС");
+        toggle("Золотая тема", true);
+        toggle("Компактный режим", false);
+        toggle("Показывать уведомления", true);
 
-        layout.addView(title);
-        layout.addView(message);
-        layout.addView(button);
+        section("НАСТРОЙКИ");
+        toggle("Вибрация кнопок", false);
+        toggle("Сохранять настройки", true);
 
-        setContentView(layout);
+        TextView info = text(
+                "GoldEg — тестовое меню Android.\n" +
+                "Переключатели пока меняют только состояние интерфейса.",
+                13, Color.LTGRAY);
+        panel.addView(info);
+
+        setContentView(scroll);
     }
 }
