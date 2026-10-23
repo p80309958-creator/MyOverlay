@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Switch;
 import android.widget.ScrollView;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
     int gold = Color.rgb(255, 190, 55);
@@ -75,6 +76,26 @@ public class MainActivity extends Activity {
         TextView status = text("●  Приложение запущено", 15,
                 Color.rgb(100, 220, 130));
         panel.addView(status);
+
+        Button inject = new Button(this);
+        inject.setText("INJECT");
+        inject.setTextSize(18);
+        inject.setTextColor(Color.BLACK);
+        inject.setAllCaps(true);
+        inject.setBackground(shape(gold, 18));
+        LinearLayout.LayoutParams injectParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+        injectParams.setMargins(18, 20, 18, 20);
+        panel.addView(inject, injectParams);
+
+        TextView injectStatus = text("Ожидание действия", 14, Color.GRAY);
+        injectStatus.setGravity(Gravity.CENTER);
+        panel.addView(injectStatus);
+
+        inject.setOnClickListener(v ->
+                injectStatus.setText("GoldEg запущен — игровая функция не подключена"));
 
         section("ИНТЕРФЕЙС");
         toggle("Золотая тема", true);
